@@ -32,7 +32,7 @@ export default async function Home() {
           </div>
           <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden border hairline">
             <Image
-              src="/products/fakhm-bottle-50ml.jpg"
+              src="/brand/hero.jpg"
               alt="زجاجة عطر فَخْم"
               fill
               priority

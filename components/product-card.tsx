@@ -7,22 +7,26 @@ import type { Product } from "@/lib/types";
 
 export function ProductImage({ product, priority = false }: { product: Product; priority?: boolean }) {
   const src = product.images[0];
-  if (src) {
-    return (
-      <Image
-        src={src}
-        alt={product.nameAr}
-        fill
-        sizes="(min-width: 768px) 33vw, 100vw"
-        className="object-cover"
-        priority={priority}
-      />
-    );
-  }
+  // Product shots are transparent cut-outs, staged on emerald with the lotus
+  // pattern and a soft glow behind the bottle.
   return (
-    <div className="lotus-pattern absolute inset-0 grid place-items-center">
-      <div className="absolute inset-0 bg-emerald/70" />
-      <BottleArt nameEn={product.nameEn} className="relative h-4/5" />
+    <div className="lotus-pattern absolute inset-0">
+      <div className="absolute inset-0 bg-emerald/75" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(200,171,116,0.22),transparent_60%)]" />
+      {src ? (
+        <Image
+          src={src}
+          alt={product.nameAr}
+          fill
+          sizes="(min-width: 768px) 33vw, 100vw"
+          className="object-contain p-[10%] drop-shadow-[0_18px_24px_rgba(0,0,0,0.45)]"
+          priority={priority}
+        />
+      ) : (
+        <div className="absolute inset-0 grid place-items-center">
+          <BottleArt nameEn={product.nameEn} className="h-4/5" />
+        </div>
+      )}
     </div>
   );
 }
