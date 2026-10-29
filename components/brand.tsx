@@ -1,17 +1,21 @@
-// Brand marks. The wordmark here is a temporary stand-in: the guidelines say
-// to always use the supplied artwork, so swap `Logo` for the official SVG
-// (public/brand/logo.svg) once it is provided.
+import Image from "next/image";
 
-export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
-  const latin = { sm: "text-xl", md: "text-2xl", lg: "text-5xl md:text-7xl" }[size];
-  const arabic = { sm: "text-2xl", md: "text-3xl", lg: "text-6xl md:text-8xl" }[size];
-  const bar = { sm: "h-7", md: "h-9", lg: "h-20 md:h-28" }[size];
+// Brand marks. The lockup is the official artwork extracted from the brand
+// guidelines (public/brand/logo-gold.svg). Guideline minimum: 200px wide.
+
+const LOGO_RATIO = 612.27 / 106.7;
+
+export function Logo({ size = "md", priority = false }: { size?: "sm" | "md" | "lg"; priority?: boolean }) {
+  const width = { sm: 200, md: 240, lg: 560 }[size];
   return (
-    <span dir="ltr" className="inline-flex items-center gap-3 text-gold select-none" aria-label="FAKHM فخم">
-      <span className={`font-display ${latin} tracking-[0.3em] ps-[0.3em]`}>FΛKHM</span>
-      <span className={`w-px ${bar} bg-gold/80`} />
-      <span className={`font-arabic font-extralight ${arabic} leading-none`}>فَخْم</span>
-    </span>
+    <Image
+      src="/brand/logo-gold.svg"
+      alt="FAKHM فَخْم"
+      width={width}
+      height={Math.round(width / LOGO_RATIO)}
+      priority={priority}
+      className={size === "lg" ? "h-auto w-[min(80vw,560px)] min-w-[200px]" : "h-auto"}
+    />
   );
 }
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Divider, Logo, Seal } from "@/components/brand";
 import { ProductCard } from "@/components/product-card";
@@ -15,20 +16,30 @@ export default async function Home() {
       <section className="relative overflow-hidden">
         <div className="lotus-pattern absolute inset-0 opacity-40" aria-hidden />
         <div className="absolute inset-0 bg-gradient-to-b from-night/40 via-night/80 to-night" aria-hidden />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 py-24 text-center md:py-36">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24">
           {/* Solid panel behind the mark, per the pattern rules. */}
-          <div className="bg-night px-8 py-10 md:px-14">
-            <Logo size="lg" />
-            <p className="latin-label mt-6 text-xs text-ivory">P e r f u m e s</p>
+          <div className="flex flex-col items-center bg-night px-6 py-10 text-center">
+            <Logo size="lg" priority />
+            <p className="latin-label mt-6 text-xs text-ivory">Perfumes</p>
             <Divider className="mt-6" />
             <h1 className="mt-6 text-2xl font-light text-ivory md:text-3xl">عطر يليق بك</h1>
+            <Link
+              href="/shop"
+              className="mt-10 border border-gold px-10 py-3 text-sm text-gold transition hover:bg-gold hover:text-night"
+            >
+              اكتشف المجموعة
+            </Link>
           </div>
-          <Link
-            href="/shop"
-            className="mt-10 border border-gold px-10 py-3 text-sm text-gold transition hover:bg-gold hover:text-night"
-          >
-            اكتشف المجموعة
-          </Link>
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden border hairline">
+            <Image
+              src="/products/fakhm-bottle-50ml.jpg"
+              alt="زجاجة عطر فَخْم"
+              fill
+              priority
+              sizes="(min-width: 768px) 448px, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
 

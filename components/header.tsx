@@ -34,7 +34,7 @@ export function Header() {
         </nav>
 
         <Link href="/" aria-label="الرئيسية" className="absolute left-1/2 -translate-x-1/2">
-          <Logo size="sm" />
+          <Logo size="sm" priority />
         </Link>
 
         <Link href="/cart" className="relative text-ivory hover:text-gold" aria-label="السلة">
