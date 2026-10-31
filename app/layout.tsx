@@ -2,9 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Cormorant_Garamond, Jost, Readex_Pro } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { CartProvider } from "@/components/cart";
+import { MotionProvider } from "@/components/motion";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { site } from "@/lib/config";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const readex = Readex_Pro({ variable: "--font-readex", subsets: ["arabic", "latin"] });
@@ -32,11 +34,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${readex.variable} ${bodoni.variable} ${cormorant.variable} ${jost.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <CartProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CartProvider>
+        <MotionProvider>
+          <CartProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </CartProvider>
+        </MotionProvider>
         <Analytics />
       </body>
     </html>

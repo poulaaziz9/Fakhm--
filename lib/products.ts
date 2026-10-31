@@ -62,7 +62,3 @@ export async function getProductsByCategory(category: Category) {
   const products = await getProducts();
   return products.filter((p) => p.category === category);
 }
-
-export function startingPrice(product: Product) {
-  return Math.min(...product.variants.map((v) => v.price));
-}

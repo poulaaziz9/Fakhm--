@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useCart } from "./cart";
 import { formatPrice } from "@/lib/config";
 import type { Product } from "@/lib/types";
@@ -68,20 +69,27 @@ export function AddToCart({ product }: { product: Product }) {
         <button
           disabled={!product.inStock}
           onClick={onAdd}
-          className="flex-1 bg-gold py-3 text-sm font-medium text-night transition hover:bg-ivory disabled:cursor-not-allowed disabled:opacity-40"
+          className="btn-gold flex-1"
         >
-          {product.inStock ? "أضف للسلة" : "نفدت الكمية"}
+          <span>{product.inStock ? "أضف للسلة" : "نفدت الكمية"}</span>
         </button>
       </div>
 
-      {added && (
-        <p className="text-sm text-ivory/90">
-          اتضاف للسلة ✓{" "}
-          <Link href="/cart" className="text-gold underline underline-offset-4">
-            كمّل الطلب
-          </Link>
-        </p>
-      )}
+      <AnimatePresence>
+        {added && (
+          <motion.p
+            className="flex items-center gap-3 border hairline bg-emerald/50 px-4 py-3 text-sm text-ivory/90"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+          >
+            <span className="text-gold">✓</span> اتضاف للسلة
+            <Link href="/cart" className="ms-auto text-gold underline underline-offset-4">
+              كمّل الطلب
+            </Link>
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { Category } from "./types";
+import type { Category, Product } from "./types";
 
 export const site = {
   nameAr: "فَخْم",
@@ -60,4 +60,8 @@ export const governorates = [
 
 export function formatPrice(value: number) {
   return `${value.toLocaleString("ar-EG")} ${currency}`;
+}
+
+export function startingPrice(product: Product) {
+  return Math.min(...product.variants.map((v) => v.price));
 }
