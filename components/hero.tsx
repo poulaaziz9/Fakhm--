@@ -69,7 +69,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: EASE, delay: 1.5 }}
           >
-            عطور مصرية فاخرة، مستوحاة من اللوتس والنيل وتوقيع الملوك.
+            عطور رجالي وحريمي بتركيز ٢٥٪ زيت عطري، بروح مصرية فاخرة.
           </motion.p>
 
           <motion.div

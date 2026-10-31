@@ -1,17 +1,21 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { publicClient } from "./supabase";
-import { sampleProducts } from "./sample-products";
+import { catalogue } from "./catalogue";
 import type { Category, Product } from "./types";
 
 type ProductRow = {
   id: string;
   slug: string;
+  code: string;
   name_ar: string;
   name_en: string;
-  tagline: string | null;
+  family_ar: string | null;
+  family_en: string | null;
+  mood: string | null;
+  inspired_by: string | null;
   description: string | null;
-  notes: Product["notes"] | null;
+  notes: string[] | null;
   category: Category;
   variants: Product["variants"];
   images: string[] | null;
@@ -23,11 +27,14 @@ function fromRow(row: ProductRow): Product {
   return {
     id: row.id,
     slug: row.slug,
+    code: row.code,
     nameAr: row.name_ar,
     nameEn: row.name_en,
-    tagline: row.tagline ?? "",
+    family: { ar: row.family_ar ?? "", en: row.family_en ?? "" },
+    mood: row.mood ?? "",
+    inspiredBy: row.inspired_by ?? "",
     description: row.description ?? "",
-    notes: row.notes ?? { top: [], heart: [], base: [] },
+    notes: row.notes ?? [],
     category: row.category,
     variants: [...row.variants].sort((a, b) => a.sizeMl - b.sizeMl),
     images: row.images ?? [],
@@ -42,7 +49,7 @@ export async function getProducts(): Promise<Product[]> {
   cacheLife("minutes");
 
   const supabase = publicClient();
-  if (!supabase) return sampleProducts;
+  if (!supabase) return catalogue;
 
   const { data, error } = await supabase
     .from("products")

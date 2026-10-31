@@ -6,9 +6,8 @@ export const site = {
   tagline: "Scent of Distinction",
   taglineAr: "عطر يليق بك",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  // TODO: replace with the brand's real contacts.
-  whatsapp: "", // international format without +, e.g. 2010xxxxxxxx
-  instagram: "", // full URL
+  whatsapp: "201508990761", // international format without +
+  instagram: "https://www.instagram.com/fakhm.perfume",
 };
 
 export const currency = "ج.م";
@@ -25,7 +24,6 @@ export function shippingFeeFor(_governorate: string, subtotal: number) {
 export const categories: { slug: Category; label: string; labelEn: string }[] = [
   { slug: "men", label: "رجالي", labelEn: "For Him" },
   { slug: "women", label: "حريمي", labelEn: "For Her" },
-  { slug: "unisex", label: "للجميع", labelEn: "Unisex" },
 ];
 
 export const governorates = [
@@ -62,6 +60,11 @@ export function formatPrice(value: number) {
   return `${value.toLocaleString("ar-EG")} ${currency}`;
 }
 
+// Null while the product has no price yet (ordered on WhatsApp).
 export function startingPrice(product: Product) {
-  return Math.min(...product.variants.map((v) => v.price));
+  return product.variants.length ? Math.min(...product.variants.map((v) => v.price)) : null;
+}
+
+export function whatsappLink(message: string) {
+  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
 }

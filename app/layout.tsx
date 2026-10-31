@@ -5,6 +5,7 @@ import { CartProvider } from "@/components/cart";
 import { MotionProvider } from "@/components/motion";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { site } from "@/lib/config";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
+            <WhatsAppButton />
           </CartProvider>
         </MotionProvider>
         <Analytics />

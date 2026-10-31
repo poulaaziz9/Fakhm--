@@ -16,14 +16,14 @@ const notesJourney = [
 const promises = [
   { title: "الدفع عند الاستلام", text: "ادفع لما الأوردر يوصلك" },
   { title: "شحن لكل المحافظات", text: "من إسكندرية لأسوان" },
-  { title: "أو دو بارفان", text: "تركيز عطري أعلى" },
-  { title: "هوية مصرية", text: "مستوحاة من حضارتنا" },
+  { title: "تركيز ٢٥٪", text: "زيت عطري في كل زجاجة" },
+  { title: "زيوت سويسرية وفرنسية", text: "خامات عطرية أصلية" },
 ];
 
 export default async function Home() {
   const products = await getProducts();
-  const featured = products.filter((p) => p.featured).slice(0, 3);
-  const showcase = featured.length > 0 ? featured : products.slice(0, 3);
+  const featured = products.filter((p) => p.featured).slice(0, 6);
+  const showcase = featured.length > 0 ? featured : products.slice(0, 6);
 
   return (
     <>
@@ -41,7 +41,7 @@ export default async function Home() {
           <h2 className="mt-4 text-3xl font-extralight md:text-5xl">المجموعة المختارة</h2>
           <DrawLine className="mx-auto mt-8 w-24" delay={0.3} />
         </Reveal>
-        <Stagger className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3" gap={0.15}>
+        <Stagger className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" gap={0.12}>
           {showcase.map((p) => (
             <StaggerItem key={p.id}>
               <ProductCard product={p} />
@@ -108,7 +108,7 @@ export default async function Home() {
 
       {/* Categories */}
       <section className="mx-auto max-w-6xl px-4 pb-24 md:pb-32">
-        <Stagger className="grid gap-6 md:grid-cols-3" gap={0.12}>
+        <Stagger className="grid gap-6 md:grid-cols-2" gap={0.12}>
           {categories.map((c) => (
             <StaggerItem key={c.slug}>
               <Link

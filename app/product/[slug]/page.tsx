@@ -17,17 +17,11 @@ export async function generateMetadata({ params }: PageProps<"/product/[slug]">)
   const product = await getProduct(slug);
   if (!product) return { title: "غير موجود" };
   return {
-    title: `${product.nameAr} · ${product.nameEn}`,
-    description: product.tagline || product.description,
+    title: `${product.nameEn} (${product.code})`,
+    description: `${product.family.ar} · ${product.notes.join(" · ")}`,
     openGraph: product.images[0] ? { images: [product.images[0]] } : undefined,
   };
 }
-
-const noteLabels = [
-  { key: "top", label: "المقدمة", labelEn: "Top" },
-  { key: "heart", label: "القلب", labelEn: "Heart" },
-  { key: "base", label: "القاعدة", labelEn: "Base" },
-] as const;
 
 export default async function ProductPage({ params }: PageProps<"/product/[slug]">) {
   const { slug } = await params;
@@ -45,10 +39,17 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
       <Stagger gap={0.1}>
         <StaggerItem>
           <p className="latin-label text-[11px] text-gold">
-            {product.nameEn} · {category?.labelEn}
+            {product.code} · {category?.labelEn} · {product.family.en}
           </p>
-          <h1 className="mt-3 text-4xl font-light">{product.nameAr}</h1>
-          {product.tagline && <p className="mt-3 text-lg text-ivory/80">{product.tagline}</p>}
+          <h1 className="mt-3 font-subtitle text-5xl tracking-wide">{product.nameEn}</h1>
+          <p className="mt-2 text-lg text-ivory/80">
+            {product.nameAr} · {product.family.ar}
+          </p>
+          {product.inspiredBy && (
+            <p className="mt-4 inline-block border hairline px-3 py-1 text-sm text-ivory/75">
+              مستوحى من <span dir="ltr">{product.inspiredBy}</span>
+            </p>
+          )}
         </StaggerItem>
 
         <StaggerItem>
@@ -59,18 +60,21 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
         <StaggerItem>
           {product.description && <p className="mt-10 text-ivory/85">{product.description}</p>}
 
-          <div className="mt-10 grid grid-cols-3 border-t hairline pt-6">
-            {noteLabels.map((n) => (
-              <div key={n.key}>
-                <p className="latin-label text-[10px] text-gold">{n.labelEn}</p>
-                <p className="mt-1 text-sm text-ivory/70">{n.label}</p>
-                <ul className="mt-3 space-y-1 text-sm">
-                  {product.notes[n.key].map((note) => (
-                    <li key={note}>{note}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="mt-10 border-t hairline pt-6">
+            <p className="latin-label text-[10px] text-gold">Key Notes</p>
+            <p className="mt-1 text-sm text-ivory/70">النوتات الأساسية</p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {product.notes.map((note) => (
+                <li key={note} className="border hairline bg-emerald/40 px-4 py-1.5 text-sm">
+                  {note}
+                </li>
+              ))}
+            </ul>
+            {product.mood && (
+              <p className="mt-6 text-sm text-ivory/75">
+                <span className="text-gold">الطابع:</span> {product.mood}
+              </p>
+            )}
           </div>
 
           <ul className="mt-10 space-y-2 border-t hairline pt-6 text-sm text-ivory/75">

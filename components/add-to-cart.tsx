@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCart } from "./cart";
-import { formatPrice } from "@/lib/config";
+import { formatPrice, whatsappLink } from "@/lib/config";
 import type { Product } from "@/lib/types";
 
 export function AddToCart({ product }: { product: Product }) {
@@ -14,7 +14,22 @@ export function AddToCart({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const variant = product.variants.find((v) => v.sizeMl === size) ?? product.variants[0];
 
-  if (!variant) return null;
+  if (!variant) {
+    // No price yet: order this perfume on WhatsApp instead.
+    return (
+      <div className="space-y-4">
+        <p className="text-ivory/80">اطلب العطر ده واعرف سعره وأحجامه على واتساب.</p>
+        <a
+          href={whatsappLink(`مرحباً فَخْم، عايز أطلب ${product.code} ${product.nameEn}`)}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-gold w-full"
+        >
+          <span>اطلب على واتساب</span>
+        </a>
+      </div>
+    );
+  }
 
   function onAdd() {
     add(

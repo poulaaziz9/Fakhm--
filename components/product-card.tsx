@@ -16,7 +16,7 @@ export function ProductImage({ product, priority = false }: { product: Product; 
         {src ? (
           <Image
             src={src}
-            alt={product.nameAr}
+            alt={`${product.nameEn} — ${product.nameAr}`}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"
             className="object-contain p-[10%] drop-shadow-[0_18px_24px_rgba(0,0,0,0.45)]"
@@ -32,6 +32,12 @@ export function ProductImage({ product, priority = false }: { product: Product; 
   );
 }
 
+function priceLabel(product: Product) {
+  const from = startingPrice(product);
+  if (from === null) return "اطلبه على واتساب";
+  return `${product.variants.length > 1 ? "يبدأ من " : ""}${formatPrice(from)}`;
+}
+
 export function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/product/${product.slug}`} className="group block">
@@ -45,12 +51,14 @@ export function ProductCard({ product }: { product: Product }) {
         </span>
       </div>
       <div className="mt-5 text-center">
-        <p className="latin-label text-[10px] text-gold/90">{product.nameEn}</p>
-        <h3 className="mt-1 text-xl font-light text-ivory transition-colors duration-500 group-hover:text-gold">{product.nameAr}</h3>
-        <p className="mt-1 text-sm text-ivory/70">
-          {product.variants.length > 1 ? "يبدأ من " : ""}
-          {formatPrice(startingPrice(product))}
+        <p className="latin-label text-[10px] text-gold/90">
+          {product.code} · {product.family.en}
         </p>
+        <h3 className="mt-2 font-subtitle text-2xl tracking-wide text-ivory transition-colors duration-500 group-hover:text-gold">
+          {product.nameEn}
+        </h3>
+        <p className="mt-1 text-sm text-ivory/70">{product.family.ar}</p>
+        <p className="mt-2 text-sm text-gold/90">{priceLabel(product)}</p>
       </div>
     </Link>
   );

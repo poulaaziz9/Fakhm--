@@ -1,4 +1,4 @@
-export type Category = "men" | "women" | "unisex";
+export type Category = "men" | "women";
 
 export type Variant = {
   sizeMl: number;
@@ -8,12 +8,16 @@ export type Variant = {
 export type Product = {
   id: string;
   slug: string;
-  nameAr: string;
+  code: string; // catalogue code, e.g. "M01"
+  nameAr: string; // Arabic spelling of the name
   nameEn: string;
-  tagline: string;
+  family: { ar: string; en: string };
+  mood: string; // short Arabic "wear it for" line
+  inspiredBy: string;
   description: string;
-  notes: { top: string[]; heart: string[]; base: string[] };
+  notes: string[]; // key notes, Arabic
   category: Category;
+  // Empty while the price isn't set: the product is then ordered on WhatsApp.
   variants: Variant[];
   images: string[];
   featured: boolean;

@@ -3,14 +3,18 @@
 create table public.products (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
+  code text not null unique, -- catalogue code, e.g. M01
   name_ar text not null,
   name_en text not null,
-  tagline text,
+  family_ar text,
+  family_en text,
+  mood text,
+  inspired_by text,
   description text,
-  notes jsonb not null default '{"top":[],"heart":[],"base":[]}',
-  category text not null check (category in ('men','women','unisex')),
-  -- [{"sizeMl":50,"price":1450}, ...]  prices in EGP
-  variants jsonb not null check (jsonb_typeof(variants) = 'array' and jsonb_array_length(variants) > 0),
+  notes jsonb not null default '[]', -- key notes, e.g. ["برغموت","فلفل"]
+  category text not null check (category in ('men','women')),
+  -- [{"sizeMl":50,"price":850}, ...] prices in EGP; empty = order on WhatsApp
+  variants jsonb not null default '[]' check (jsonb_typeof(variants) = 'array'),
   images text[] not null default '{}',
   featured boolean not null default false,
   in_stock boolean not null default true,
