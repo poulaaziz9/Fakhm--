@@ -2,8 +2,8 @@ import type { Category, Product } from "./types";
 
 // FAKHM catalogue (men's & women's lines). Used until Supabase is connected,
 // and as the source for supabase/seed.sql.
-// Prices aren't in the catalogue yet: products with no variants are ordered
-// on WhatsApp. Add e.g. `variants: [{ sizeMl: 50, price: 850 }]` to sell online.
+// Every bottle is 50 ml at one price. A product with no variants is ordered on
+// WhatsApp instead of through the cart.
 
 type Entry = [
   code: string,
@@ -52,6 +52,8 @@ const women: Entry[] = [
   ["W15", "Grenadine Sky", "جرينادين سكاي", "Bright Crystal – Versace", "Fresh Fruity", "فواكه منعش", "رمان · فاوانيا · لوتس · عنبر", "صيفي"],
 ];
 
+const BOTTLE = { sizeMl: 50, price: 649 }; // EGP
+
 const FEATURED = new Set(["M01", "M02", "M09", "W01", "W03", "W05"]);
 
 function toProduct(e: Entry, category: Category, index: number): Product {
@@ -69,7 +71,7 @@ function toProduct(e: Entry, category: Category, index: number): Product {
     description: `عطر ${familyAr} بتركيز ٢٥٪ زيت عطري، معمول من زيوت خام سويسرية وفرنسية.`,
     notes: notes.split(" · "),
     category,
-    variants: [],
+    variants: [BOTTLE],
     images: ["/products/fakhm-bottle-50ml.webp"],
     featured: FEATURED.has(code),
     inStock: true,
